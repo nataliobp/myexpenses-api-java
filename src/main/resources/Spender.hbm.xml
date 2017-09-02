@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping default-access="field" default-cascade="all">
+    <class name="com.myexpenses.domain.spender.Spender" table="spenders" lazy="true">
+        <id name="id" type="long" column="id" unsaved-value="-1">
+            <generator class="native"/>
+        </id>
+        <property name="name" column="name" type="java.lang.String"/>
+        <property name="email" column="email" type="java.lang.String"/>
+        <component name="spenderId" class="com.myexpenses.domain.spender.SpenderId">
+            <property name="id" column="spender_id" type="java.lang.String"/>
+        </component>
+    </class>
+</hibernate-mapping>

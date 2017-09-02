@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping default-access="field" default-cascade="all">
+    <class name="com.myexpenses.domain.expense.Expense" table="expenses" lazy="true">
+        <id name="id" type="long" column="id" unsaved-value="-1">
+            <generator class="native"/>
+        </id>
+        <component name="amount" class="com.myexpenses.domain.common.Amount">
+            <property name="value" column="amount" type="java.math.BigDecimal"/>
+        </component>
+        <property name="description" column="description" type="java.lang.String"/>
+        <property name="createdAt" column="created_at" type="java.util.Date"/>
+        <component name="expenseId" class="com.myexpenses.domain.expense.ExpenseId">
+            <property name="id" column="expense_id" type="java.lang.String"/>
+        </component>
+        <component name="expenseListId" class="com.myexpenses.domain.expense_list.ExpenseListId">
+            <property name="id" column="expense_list_id" type="java.lang.String"/>
+        </component>
+        <component name="spenderId" class="com.myexpenses.domain.spender.SpenderId">
+            <property name="id" column="spender_id" type="java.lang.String"/>
+        </component>
+        <component name="categoryId" class="com.myexpenses.domain.category.CategoryId">
+            <property name="id" column="category_id" type="java.lang.String"/>
+        </component>
+    </class>
+</hibernate-mapping>
