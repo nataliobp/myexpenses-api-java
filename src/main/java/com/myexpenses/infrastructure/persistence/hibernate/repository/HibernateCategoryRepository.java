@@ -8,10 +8,7 @@ import com.myexpenses.domain.expense_list.ExpenseListId;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class HibernateCategoryRepository extends AbstractHibernateRepository implements CategoryRepository {
@@ -60,7 +57,7 @@ public class HibernateCategoryRepository extends AbstractHibernateRepository imp
 
     public List<Category> categoriesOfIds(CategoryId[] categoriesIds) {
         if (categoriesIds.length == 0) {
-            return new ArrayList<>();
+            return Collections.emptyList();
         }
 
         try {

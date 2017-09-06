@@ -56,7 +56,7 @@ public class HibernateSpenderRepository extends AbstractHibernateRepository impl
     @Override
     public List<Spender> spendersOfIds(SpenderId[] spenderIds) {
         if(spenderIds.length == 0){
-            return new ArrayList<>();
+            return Collections.emptyList();
         }
 
         return entityManager()
