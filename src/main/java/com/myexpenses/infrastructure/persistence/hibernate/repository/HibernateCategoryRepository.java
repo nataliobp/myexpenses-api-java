@@ -28,12 +28,13 @@ public class HibernateCategoryRepository extends AbstractHibernateRepository imp
 
     public Category categoryOfId(CategoryId anCategoryId) {
         try {
-            return (Category) entityManager().createQuery(
-                "SELECT category " +
+            return entityManager()
+                .createQuery(
+                    "SELECT category " +
                     "FROM Category AS category " +
-                    "WHERE category.categoryId.id = ?1"
-            )
-                .setParameter(1, anCategoryId.id())
+                    "WHERE category.categoryId.id = ?1",
+                    Category.class
+                ).setParameter(1, anCategoryId.id())
                 .getSingleResult();
         } catch (NoResultException e) {
             return null;
@@ -42,13 +43,14 @@ public class HibernateCategoryRepository extends AbstractHibernateRepository imp
 
     public Category categoryOfNameInExpenseListOfId(String aName, ExpenseListId anExpenseListId) {
         try {
-            return (Category) entityManager().createQuery(
-                "SELECT category " +
-                    "FROM Category AS category " +
-                    "WHERE category.name = ?1 " +
-                    "AND category.expenseListId.id = ?2"
-            )
-                .setParameter(1, aName)
+            return entityManager()
+                .createQuery(
+                    "SELECT category " +
+                        "FROM Category AS category " +
+                        "WHERE category.name = ?1 " +
+                        "AND category.expenseListId.id = ?2",
+                    Category.class
+                ).setParameter(1, aName)
                 .setParameter(2, anExpenseListId.id())
                 .getSingleResult();
         } catch (NoResultException e) {
@@ -57,24 +59,17 @@ public class HibernateCategoryRepository extends AbstractHibernateRepository imp
     }
 
     public List<Category> categoriesOfIds(CategoryId[] categoriesIds) {
-        List<Category> categories = new ArrayList<>();
-
-        if(categoriesIds.length == 0){
-            return categories;
+        if (categoriesIds.length == 0) {
+            return new ArrayList<>();
         }
 
         try {
-            List result = entityManager().createQuery(
-                "SELECT category from Category as category WHERE category.categoryId.id IN (?1)"
-            )
-                .setParameter(1, Arrays.stream(categoriesIds).map(EntityId::id).collect(Collectors.toList()))
+            return entityManager()
+                .createQuery(
+                    "SELECT category from Category as category WHERE category.categoryId.id IN (?1)",
+                    Category.class
+                ).setParameter(1, Arrays.stream(categoriesIds).map(EntityId::id).collect(Collectors.toList()))
                 .getResultList();
-
-            for (Object o : result) {
-                categories.add((Category) o);
-            }
-
-            return categories;
 
         } catch (NoResultException e) {
             return null;
@@ -86,19 +81,12 @@ public class HibernateCategoryRepository extends AbstractHibernateRepository imp
     }
 
     public List<Category> categoriesOfExpenseListOfId(ExpenseListId anExpenseListId) {
-        List<Category> categories = new ArrayList<>();
-
-        List result = entityManager().createQuery(
-            "SELECT category FROM Category AS category WHERE category.expenseListId.id = ?1"
-        )
-            .setParameter(1, anExpenseListId.id())
+        return entityManager()
+            .createQuery(
+                "SELECT category FROM Category AS category WHERE category.expenseListId.id = ?1",
+                Category.class
+            ).setParameter(1, anExpenseListId.id())
             .getResultList();
-
-        for (Object o : result) {
-            categories.add((Category) o);
-        }
-
-        return categories;
     }
 
 }

@@ -24,10 +24,11 @@ public class HibernateSpenderRepository extends AbstractHibernateRepository impl
 
     public Spender spenderOfId(SpenderId anSpenderId) {
         try {
-            return (Spender) entityManager().createQuery(
-                "SELECT spender from Spender as spender WHERE spender.spenderId.id = ?1"
-            )
-                .setParameter(1, anSpenderId.id())
+            return entityManager()
+                .createQuery(
+                    "SELECT spender from Spender as spender WHERE spender.spenderId.id = ?1",
+                    Spender.class
+                ).setParameter(1, anSpenderId.id())
                 .getSingleResult();
         } catch (NoResultException e) {
             return null;
@@ -36,10 +37,11 @@ public class HibernateSpenderRepository extends AbstractHibernateRepository impl
 
     public Spender spenderOfEmail(String email) {
         try {
-            return (Spender) entityManager().createQuery(
-                "SELECT spender FROM Spender AS spender WHERE spender.email = ?1"
-            )
-                .setParameter(1, email)
+            return entityManager()
+                .createQuery(
+                    "SELECT spender FROM Spender AS spender WHERE spender.email = ?1",
+                    Spender.class
+                ).setParameter(1, email)
                 .getSingleResult();
         } catch (NoResultException e) {
             return null;
@@ -53,37 +55,23 @@ public class HibernateSpenderRepository extends AbstractHibernateRepository impl
 
     @Override
     public List<Spender> spendersOfIds(SpenderId[] spenderIds) {
-        List<Spender> spenders = new ArrayList<>();
-
         if(spenderIds.length == 0){
-            return spenders;
+            return new ArrayList<>();
         }
 
-        List result = entityManager().createQuery(
-            "SELECT spender FROM Spender AS spender WHERE spender.spenderId.id IN ?1"
-        )
-            .setParameter(1, Arrays.stream(spenderIds).map(EntityId::id).collect(Collectors.toList()))
+        return entityManager()
+            .createQuery(
+                "SELECT spender FROM Spender AS spender WHERE spender.spenderId.id IN ?1",
+                Spender.class
+            ).setParameter(1, Arrays.stream(spenderIds).map(EntityId::id).collect(Collectors.toList()))
             .getResultList();
-
-        for (Object o : result) {
-            spenders.add((Spender) o);
-        }
-
-        return spenders;
     }
 
     public List<Spender> getAll() {
-        List<Spender> spenders = new ArrayList<>();
-
-        List result = entityManager().createQuery(
-            "SELECT spender FROM Spender AS spender"
-        )
-            .getResultList();
-
-        for (Object o : result) {
-            spenders.add((Spender) o);
-        }
-
-        return spenders;
+        return entityManager()
+            .createQuery(
+                "SELECT spender FROM Spender AS spender",
+                Spender.class
+            ).getResultList();
     }
 }
