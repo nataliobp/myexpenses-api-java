@@ -9,7 +9,7 @@ public class GetASpenderQueryResult implements QueryResult {
     private final SpenderDto aSpenderDto;
 
     public GetASpenderQueryResult(Spender aSpender) {
-        aSpenderDto = new SpenderToDtoTransformer().transform(aSpender);
+        aSpenderDto = SpenderToDtoTransformer.transform(aSpender);
     }
 
     public SpenderDto getSpenderDto() {

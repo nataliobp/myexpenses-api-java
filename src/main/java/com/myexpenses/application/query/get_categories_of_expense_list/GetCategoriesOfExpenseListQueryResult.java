@@ -11,11 +11,9 @@ public class GetCategoriesOfExpenseListQueryResult implements QueryResult {
     private CategoryDto[] categoriesDtos;
 
     public GetCategoriesOfExpenseListQueryResult(List<Category> categories) {
-        categoriesDtos = new CategoryDto[categories.size()];
-
-        for(int i = 0; i < categoriesDtos.length; i++){
-            categoriesDtos[i] = new CategoryToDtoTransformer().transform(categories.get(i));
-        }
+        categoriesDtos = categories.stream()
+            .map(CategoryToDtoTransformer::transform)
+            .toArray(CategoryDto[]::new);
     }
 
     public CategoryDto[] getCategoriesDtos() {

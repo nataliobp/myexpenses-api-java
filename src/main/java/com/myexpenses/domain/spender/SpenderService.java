@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class SpenderService {
 
@@ -34,16 +33,17 @@ public class SpenderService {
     }
 
     public Map<SpenderId, Spender> getSpendersFromExpenses(List<Expense> expenses) {
-
-        Stream<SpenderId> spendersIds = expenses
-            .stream()
-            .map(Expense::spenderId)
-            .distinct();
-
         return spenderRepository
-            .spendersOfIds(spendersIds.toArray(SpenderId[]::new))
+            .spendersOfIds(getSpenderIds(expenses))
             .stream()
             .collect(Collectors.toMap(Spender::spenderId, Function.identity()));
+    }
+
+    private SpenderId[] getSpenderIds(List<Expense> expenses) {
+        return expenses.stream()
+                .map(Expense::spenderId)
+                .distinct()
+                .toArray(SpenderId[]::new);
     }
 
     public void registerASpender(Spender aSpender) {

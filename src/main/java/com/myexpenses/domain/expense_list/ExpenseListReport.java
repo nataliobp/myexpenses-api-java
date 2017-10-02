@@ -67,10 +67,9 @@ public class ExpenseListReport {
         }
 
         private void recalculateBalances() {
-            for (SpenderId aSpenderId : spenderSummaries.keySet()) {
-                SpenderSummary spenderSummary = spenderSummaries.get(aSpenderId);
-                spenderSummary.recalculateBalance();
-            }
+            spenderSummaries
+                .values()
+                .forEach(SpenderSummary::recalculateBalance);
         }
 
         private SpenderSummary summaryForSpender(SpenderId aSpenderId) {

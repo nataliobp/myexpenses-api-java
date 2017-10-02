@@ -65,12 +65,18 @@ public class HibernateCategoryRepository extends AbstractHibernateRepository imp
                 .createQuery(
                     "SELECT category from Category as category WHERE category.categoryId.id IN (?1)",
                     Category.class
-                ).setParameter(1, Arrays.stream(categoriesIds).map(EntityId::id).collect(Collectors.toList()))
+                ).setParameter(1, getIds(categoriesIds))
                 .getResultList();
 
         } catch (NoResultException e) {
             return null;
         }
+    }
+
+    private List<String> getIds(CategoryId[] categoriesIds) {
+        return Arrays.stream(categoriesIds)
+            .map(EntityId::id)
+            .collect(Collectors.toList());
     }
 
     public CategoryId nextIdentity() {

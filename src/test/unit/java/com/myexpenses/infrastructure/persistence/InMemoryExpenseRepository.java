@@ -6,6 +6,7 @@ import com.myexpenses.domain.expense.ExpenseRepository;
 import com.myexpenses.domain.expense_list.ExpenseListId;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class InMemoryExpenseRepository implements ExpenseRepository {
     private Map<ExpenseId, Expense> memory = new HashMap<>();
@@ -15,15 +16,9 @@ public class InMemoryExpenseRepository implements ExpenseRepository {
     }
 
     public List<Expense> expensesOfExpenseListOfId(ExpenseListId expenseListId) {
-        List<Expense> result = new ArrayList<>();
-
-        for(Expense anExpense : memory.values()){
-            if(anExpense.expenseListId().equals(expenseListId)){
-                result.add(anExpense);
-            }
-        }
-
-        return result;
+        return memory.values().stream()
+            .filter(e -> e.expenseListId().equals(expenseListId))
+            .collect(Collectors.toList());
     }
 
     public ExpenseId nextIdentity() {

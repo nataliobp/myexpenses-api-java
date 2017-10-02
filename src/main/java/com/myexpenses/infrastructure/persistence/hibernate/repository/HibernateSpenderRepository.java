@@ -63,8 +63,14 @@ public class HibernateSpenderRepository extends AbstractHibernateRepository impl
             .createQuery(
                 "SELECT spender FROM Spender AS spender WHERE spender.spenderId.id IN ?1",
                 Spender.class
-            ).setParameter(1, Arrays.stream(spenderIds).map(EntityId::id).collect(Collectors.toList()))
+            ).setParameter(1, getIds(spenderIds))
             .getResultList();
+    }
+
+    private List<String> getIds(SpenderId[] spenderIds) {
+        return Arrays.stream(spenderIds)
+            .map(EntityId::id)
+            .collect(Collectors.toList());
     }
 
     public List<Spender> getAll() {

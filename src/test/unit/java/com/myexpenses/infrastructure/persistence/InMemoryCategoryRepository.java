@@ -6,7 +6,7 @@ import com.myexpenses.domain.expense_list.ExpenseListId;
 import com.myexpenses.domain.category.CategoryRepository;
 
 import java.util.*;
-import java.util.stream.Stream;
+import java.util.stream.Collectors;
 
 public class InMemoryCategoryRepository implements CategoryRepository {
     private Map<CategoryId, Category> memory = new HashMap<>();
@@ -20,13 +20,10 @@ public class InMemoryCategoryRepository implements CategoryRepository {
     }
 
     public Category categoryOfNameInExpenseListOfId(String aName, ExpenseListId anExpenseListId) {
-        for(Category aCategory : memory.values()){
-            if(aCategory.expenseListId().equals(anExpenseListId) && aCategory.name().equals(aName)){
-                return aCategory;
-            }
-        }
-
-        return null;
+        return memory.values().stream()
+            .filter(c -> c.expenseListId().equals(anExpenseListId) && c.name().equals(aName))
+            .findFirst()
+            .orElse(null);
     }
 
     public CategoryId nextIdentity() {
@@ -34,21 +31,16 @@ public class InMemoryCategoryRepository implements CategoryRepository {
     }
 
     public List<Category> categoriesOfExpenseListOfId(ExpenseListId anExpenseListId) {
-        Stream<Category> categories = memory
-            .values()
-            .stream()
-            .filter(c -> c.expenseListId().equals(anExpenseListId));
-
-        return new ArrayList<>(Arrays.asList(categories.toArray(Category[]::new)));
+        return memory.values().stream()
+            .filter(c -> c.expenseListId().equals(anExpenseListId))
+            .collect(Collectors.toList());
     }
 
     public List<Category> categoriesOfIds(CategoryId[] categoryIds) {
-        Stream<Category> categories = Arrays
-            .stream(categoryIds)
-            .map(s -> memory.get(s))
-            .filter(Objects::nonNull);
-
-        return new ArrayList<>(Arrays.asList(categories.toArray(Category[]::new)));
+        return Arrays.stream(categoryIds)
+            .map(memory::get)
+            .filter(Objects::nonNull)
+            .collect(Collectors.toList());
     }
 
 }

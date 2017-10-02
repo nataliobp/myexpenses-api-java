@@ -11,11 +11,9 @@ public class GetSpendersQueryResult implements QueryResult{
     private final SpenderDto[] spendersDtos;
 
     public GetSpendersQueryResult(List<Spender> spenders) {
-        spendersDtos = new SpenderDto[spenders.size()];
-
-        for(int i = 0; i < spenders.size(); i++){
-            spendersDtos[i] = new SpenderToDtoTransformer().transform(spenders.get(i));
-        }
+        spendersDtos = spenders.stream()
+            .map(SpenderToDtoTransformer::transform)
+            .toArray(SpenderDto[]::new);
     }
 
     public SpenderDto[] getSpendersDtos() {

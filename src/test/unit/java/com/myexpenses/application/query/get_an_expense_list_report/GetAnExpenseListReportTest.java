@@ -22,6 +22,8 @@ import com.myexpenses.infrastructure.persistence.InMemorySpenderRepository;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Arrays;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -140,13 +142,10 @@ public class GetAnExpenseListReportTest {
     }
 
     private SpenderSummaryDto getSummaryOfSpenderOfId(String aSpenderId, ExpenseListReportDto aReport) {
-        for (SpenderSummaryDto aSpenderSummaryDto : aReport.getSummary().getSpendersSummaries()){
-            if(aSpenderId.equals(aSpenderSummaryDto.getSpender().getSpenderId())){
-                return aSpenderSummaryDto;
-            }
-        }
-
-        return null;
+        return Arrays.stream(aReport.getSummary().getSpendersSummaries())
+            .filter(s -> s.getSpender().getSpenderId().equals(aSpenderId))
+            .findFirst()
+            .orElse(null);
     }
 
     private void arrangeAnExpense(String aSpenderId, String anAmount) throws InvalidAmountException {

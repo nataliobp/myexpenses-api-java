@@ -20,13 +20,10 @@ public class InMemoryExpenseListRepository implements ExpenseListRepository {
     }
 
     public ExpenseList expenseListOfName(String aName) {
-        for(ExpenseList aExpenseList : memory.values()){
-            if(aExpenseList.name().equals(aName)){
-                return aExpenseList;
-            }
-        }
-
-        return null;
+        return memory.values().stream()
+            .filter(e -> e.name().equals(aName))
+            .findFirst()
+            .orElse(null);
     }
 
     public ExpenseListId nextIdentity() {

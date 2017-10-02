@@ -5,7 +5,7 @@ import com.myexpenses.infrastructure.delivery_mechanism.rest.dto.SpenderDto;
 
 public class SpenderToDtoTransformer {
 
-    public SpenderDto transform(Spender aSpender) {
+    public static SpenderDto transform(Spender aSpender) {
         return new SpenderDto(
             aSpender.spenderId().id(),
             aSpender.name(),

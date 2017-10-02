@@ -9,7 +9,7 @@ public class GetAnExpenseListQueryResult implements QueryResult {
     private final ExpenseListDto anExpenseListDto;
 
     public GetAnExpenseListQueryResult(ExpenseList anExpenseList) {
-        anExpenseListDto = new ExpenseListToDtoTransformer().transform(anExpenseList);
+        anExpenseListDto = ExpenseListToDtoTransformer.transform(anExpenseList);
     }
 
     public ExpenseListDto getExpenseListDto() {

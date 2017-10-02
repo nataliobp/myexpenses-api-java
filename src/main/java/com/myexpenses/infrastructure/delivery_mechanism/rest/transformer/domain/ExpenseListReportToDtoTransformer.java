@@ -27,18 +27,10 @@ public class ExpenseListReportToDtoTransformer {
         Map<SpenderId, Spender> spenders,
         Map<CategoryId, Category> categories
     ) {
-        ExpenseDto[] expenseDtos = new ExpenseDto[expenses.size()];
-
-        int i = 0;
-        for (Expense anExpense : expenses) {
-            expenseDtos[i++] = new ExpenseToDtoTransformer().transform(
-                anExpense,
-                spenders.get(anExpense.spenderId()),
-                categories.get(anExpense.categoryId())
-            );
-        }
-
-        return expenseDtos;
+        return expenses
+            .stream()
+            .map(e -> ExpenseToDtoTransformer.transform(e, spenders.get(e.spenderId()), categories.get(e.categoryId())))
+            .toArray(ExpenseDto[]::new);
     }
 
     private SummaryDto getSummaryDto(
@@ -60,7 +52,7 @@ public class ExpenseListReportToDtoTransformer {
         int i = 0;
         for (SpenderId aSpenderId : spendersSummaries.keySet()) {
             ExpenseListReport.Summary.SpenderSummary spenderSummary = spendersSummaries.get(aSpenderId);
-            SpenderDto aSpenderDto = new SpenderToDtoTransformer().transform(spenders.get(aSpenderId));
+            SpenderDto aSpenderDto = SpenderToDtoTransformer.transform(spenders.get(aSpenderId));
 
             spenderSummaryDtos[i++] = new SpenderSummaryDto(
                 aSpenderDto,

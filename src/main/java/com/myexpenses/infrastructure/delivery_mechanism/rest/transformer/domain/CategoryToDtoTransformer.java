@@ -5,7 +5,7 @@ import com.myexpenses.infrastructure.delivery_mechanism.rest.dto.CategoryDto;
 
 public class CategoryToDtoTransformer {
 
-    public CategoryDto transform(Category aCategory) {
+    public static CategoryDto transform(Category aCategory) {
         return new CategoryDto(
             aCategory.categoryId().id(),
             aCategory.name(),

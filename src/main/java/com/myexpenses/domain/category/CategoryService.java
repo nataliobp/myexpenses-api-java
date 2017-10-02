@@ -36,15 +36,18 @@ public class CategoryService {
 
     public Map<CategoryId, Category> getCategoriesFromExpenses(List<Expense> expenses) {
 
-        Stream<CategoryId> categoriesIds = expenses
-            .stream()
-            .map(Expense::categoryId)
-            .distinct();
-
         return categoryRepository
-            .categoriesOfIds(categoriesIds.toArray(CategoryId[]::new))
+            .categoriesOfIds(getCategoryIds(expenses))
             .stream()
             .collect(Collectors.toMap(Category::categoryId, Function.identity()));
+    }
+
+    private CategoryId[] getCategoryIds(List<Expense> expenses) {
+        return expenses
+                .stream()
+                .map(Expense::categoryId)
+                .distinct()
+                .toArray(CategoryId[]::new);
     }
 
     public List<Category> categoriesOfExpenseListOfId(ExpenseListId anExpenseListId) {

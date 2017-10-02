@@ -7,7 +7,7 @@ import com.myexpenses.infrastructure.delivery_mechanism.rest.dto.ExpenseDto;
 
 public class ExpenseToDtoTransformer {
 
-    public ExpenseDto transform(
+    public static ExpenseDto transform(
         Expense anExpense,
         Spender aSpender,
         Category aCategory
@@ -15,8 +15,8 @@ public class ExpenseToDtoTransformer {
         return new ExpenseDto(
             anExpense.expenseId().id(),
             anExpense.expenseListId().id(),
-            new SpenderToDtoTransformer().transform(aSpender),
-            new CategoryToDtoTransformer().transform(aCategory),
+            SpenderToDtoTransformer.transform(aSpender),
+            CategoryToDtoTransformer.transform(aCategory),
             anExpense.amount().toString(),
             anExpense.description(),
             anExpense.createdAt().toString()

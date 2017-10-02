@@ -5,7 +5,7 @@ import com.myexpenses.domain.spender.SpenderId;
 import com.myexpenses.domain.spender.SpenderRepository;
 
 import java.util.*;
-import java.util.stream.Stream;
+import java.util.stream.Collectors;
 
 public class InMemorySpenderRepository implements SpenderRepository {
     private Map<SpenderId, Spender> memory = new HashMap<>();
@@ -19,13 +19,10 @@ public class InMemorySpenderRepository implements SpenderRepository {
     }
 
     public Spender spenderOfEmail(String email) {
-        for(Spender aSpender : memory.values()){
-            if(aSpender.email().equals(email)){
-                return aSpender;
-            }
-        }
-
-        return null;
+        return memory.values().stream()
+            .filter(s -> s.email().equals(email))
+            .findFirst()
+            .orElse(null);
     }
 
     public SpenderId nextIdentity() {
@@ -34,12 +31,10 @@ public class InMemorySpenderRepository implements SpenderRepository {
 
     @Override
     public List<Spender> spendersOfIds(SpenderId[] spenderIds) {
-        Stream<Spender> spenders = Arrays
-            .stream(spenderIds)
+        return Arrays.stream(spenderIds)
             .map(s -> memory.get(s))
-            .filter(Objects::nonNull);
-
-        return new ArrayList<>(Arrays.asList(spenders.toArray(Spender[]::new)));
+            .filter(Objects::nonNull)
+            .collect(Collectors.toList());
     }
 
     @Override

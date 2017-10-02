@@ -5,7 +5,7 @@ import com.myexpenses.infrastructure.delivery_mechanism.rest.dto.ExpenseListDto;
 
 public class ExpenseListToDtoTransformer {
 
-    public ExpenseListDto transform(ExpenseList anExpenseList) {
+    public static ExpenseListDto transform(ExpenseList anExpenseList) {
         return new ExpenseListDto(
             anExpenseList.expenseListId().id(),
             anExpenseList.name()

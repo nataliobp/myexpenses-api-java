@@ -51,7 +51,7 @@ public class GetAnExpenseListReportQueryHandler implements QueryHandler<GetAnExp
 
         for (Expense anExpense : expenses) {
             aReport.addAnExpense(
-                anExpense, 
+                anExpense,
                 spenders.get(anExpense.spenderId()),
                 categories.get(anExpense.categoryId())
             );
