@@ -39,6 +39,6 @@ public class InMemorySpenderRepository implements SpenderRepository {
 
     @Override
     public List<Spender> getAll() {
-        return (List<Spender>) memory.values();
+        return new ArrayList<>(memory.values());
     }
 }

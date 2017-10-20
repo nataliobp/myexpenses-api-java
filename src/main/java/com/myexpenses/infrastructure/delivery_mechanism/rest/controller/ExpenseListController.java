@@ -12,6 +12,9 @@ import com.myexpenses.application.query.get_an_expense_list_report.GetAnExpenseL
 import com.myexpenses.application.query.get_categories_of_expense_list.GetCategoriesOfExpenseListQuery;
 import com.myexpenses.application.query.get_categories_of_expense_list.GetCategoriesOfExpenseListQueryHandler;
 import com.myexpenses.application.query.get_categories_of_expense_list.GetCategoriesOfExpenseListQueryResult;
+import com.myexpenses.application.query.get_expense_lists.GetExpenseListsQuery;
+import com.myexpenses.application.query.get_expense_lists.GetExpenseListsQueryHandler;
+import com.myexpenses.application.query.get_expense_lists.GetExpenseListsQueryResult;
 import com.myexpenses.domain.expense_list.ExpenseListAlreadyExistException;
 import com.myexpenses.domain.expense_list.ExpenseListRepository;
 import com.myexpenses.domain.expense_list.InvalidNameException;
@@ -26,7 +29,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 @RestController
-@RequestMapping("/expense_list")
 public class ExpenseListController {
 
     @Autowired
@@ -44,8 +46,11 @@ public class ExpenseListController {
     @Autowired
     private GetCategoriesOfExpenseListQueryHandler getCategoriesOfExpenseListQueryHandler;
 
+    @Autowired
+    private GetExpenseListsQueryHandler getExpenseListsQueryHandler;
+
     @ResponseStatus(HttpStatus.CREATED)
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(value = "/expense_list", method = RequestMethod.POST)
     public String createExpenseList(
         HttpServletRequest request
     ) throws InvalidNameException, ExpenseListAlreadyExistException, IOException {
@@ -62,7 +67,7 @@ public class ExpenseListController {
         return String.format("/expense_list/%s", anExpenseListId);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/expense_list/{id}", method = RequestMethod.GET)
     public ExpenseListDto getExpenseList(@PathVariable(value = "id") String id) throws Exception {
 
         QueryResult result = getAnExpenseListQueryHandler.handle(
@@ -72,7 +77,7 @@ public class ExpenseListController {
         return ((GetAnExpenseListQueryResult) result).getExpenseListDto();
     }
 
-    @RequestMapping(value = "/{id}/report", method = RequestMethod.GET)
+    @RequestMapping(value = "/expense_list/{id}/report", method = RequestMethod.GET)
     public ExpenseListReportDto getExpenseListReport(
         @PathVariable(value = "id") String anExpenseListId//,
     ) throws Exception {
@@ -86,7 +91,7 @@ public class ExpenseListController {
         return ((GetAnExpenseListReportQueryResult) result).getExpensesReportDto();
     }
 
-    @RequestMapping(value = "/{id}/categories", method = RequestMethod.GET)
+    @RequestMapping(value = "/expense_list/{id}/categories", method = RequestMethod.GET)
     public CategoryDto[] getCategoriesOfExpenseList(
         @PathVariable(value = "id") String anExpenseListId
     ) throws Exception {
@@ -98,5 +103,13 @@ public class ExpenseListController {
         );
 
         return ((GetCategoriesOfExpenseListQueryResult) result).getCategoriesDtos();
+    }
+
+    @RequestMapping(value = "/expense_lists", method = RequestMethod.GET)
+    public ExpenseListDto[] getExpenseLists() throws Exception {
+
+        QueryResult result = getExpenseListsQueryHandler.handle(new GetExpenseListsQuery());
+
+        return ((GetExpenseListsQueryResult) result).getExpenseListsDtos();
     }
 }

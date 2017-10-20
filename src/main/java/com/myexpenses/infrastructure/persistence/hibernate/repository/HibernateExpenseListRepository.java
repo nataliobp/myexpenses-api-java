@@ -6,6 +6,7 @@ import com.myexpenses.domain.expense_list.ExpenseListRepository;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
+import java.util.List;
 import java.util.UUID;
 
 public class HibernateExpenseListRepository extends AbstractHibernateRepository implements ExpenseListRepository {
@@ -49,5 +50,13 @@ public class HibernateExpenseListRepository extends AbstractHibernateRepository 
 
     public ExpenseListId nextIdentity() {
         return ExpenseListId.ofId(UUID.randomUUID().toString());
+    }
+
+    public List<ExpenseList> getAll() {
+        return entityManager()
+            .createQuery(
+                "SELECT expense_list FROM ExpenseList AS expense_list",
+                ExpenseList.class
+            ).getResultList();
     }
 }

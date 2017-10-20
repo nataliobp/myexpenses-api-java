@@ -1,5 +1,7 @@
 package com.myexpenses.domain.expense_list;
 
+import java.util.List;
+
 public class ExpenseListService {
 
     private final ExpenseListRepository expenseListRepository;
@@ -26,5 +28,9 @@ public class ExpenseListService {
 
     public void startAnExpenseList(ExpenseList anExpenseList) {
         expenseListRepository.add(anExpenseList);
+    }
+
+    public List<ExpenseList> getAll() {
+        return expenseListRepository.getAll();
     }
 }

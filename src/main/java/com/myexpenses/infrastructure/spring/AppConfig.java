@@ -12,6 +12,7 @@ import com.myexpenses.application.query.get_an_expense.GetAnExpenseQueryHandler;
 import com.myexpenses.application.query.get_an_expense_list.GetAnExpenseListQueryHandler;
 import com.myexpenses.application.query.get_an_expense_list_report.GetAnExpenseListReportQueryHandler;
 import com.myexpenses.application.query.get_categories_of_expense_list.GetCategoriesOfExpenseListQueryHandler;
+import com.myexpenses.application.query.get_expense_lists.GetExpenseListsQueryHandler;
 import com.myexpenses.application.query.get_spenders.GetSpendersQueryHandler;
 import com.myexpenses.domain.category.CategoryRepository;
 import com.myexpenses.domain.category.CategoryService;
@@ -178,6 +179,13 @@ public class AppConfig {
         return new AlterAnExpenseCommandHandler(
             expenseService(),
             categoryService()
+        );
+    }
+
+    @Bean
+    public GetExpenseListsQueryHandler getExpenseListsQueryHandler(){
+        return new GetExpenseListsQueryHandler(
+            expenseListService()
         );
     }
 }

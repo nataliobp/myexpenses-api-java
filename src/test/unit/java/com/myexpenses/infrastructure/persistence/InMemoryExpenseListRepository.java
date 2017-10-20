@@ -4,9 +4,8 @@ import com.myexpenses.domain.expense_list.ExpenseList;
 import com.myexpenses.domain.expense_list.ExpenseListId;
 import com.myexpenses.domain.expense_list.ExpenseListRepository;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class InMemoryExpenseListRepository implements ExpenseListRepository {
     private Map<ExpenseListId, ExpenseList> memory = new HashMap<>();
@@ -28,5 +27,9 @@ public class InMemoryExpenseListRepository implements ExpenseListRepository {
 
     public ExpenseListId nextIdentity() {
         return ExpenseListId.ofId(UUID.randomUUID().toString());
+    }
+
+    public List<ExpenseList> getAll() {
+        return new ArrayList<>(memory.values());
     }
 }
