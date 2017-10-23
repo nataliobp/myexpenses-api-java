@@ -3,7 +3,7 @@
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping default-access="field" default-cascade="all">
-    <class name="com.myexpenses.domain.expense_list.ExpenseList" table="expensesLists" lazy="true">
+    <class name="com.myexpenses.domain.expense_list.ExpenseList" table="expense_lists" lazy="true">
         <id name="id" type="long" column="id" unsaved-value="-1">
             <generator class="native"/>
         </id>

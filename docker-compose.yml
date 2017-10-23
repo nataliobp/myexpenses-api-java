@@ -1,0 +1,22 @@
+version: "3"
+services:
+  spring:
+    build: docker/spring
+    volumes:
+      - .:/usr/local/myexpenses
+    container_name: myexpenses-api
+    ports:
+      - "8080:8080"
+    depends_on:
+      - "dbserver"
+  dbserver:
+    build: docker/mysql
+    ports:
+      - "33060:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD
+      - MYSQL_USER
+      - MYSQL_PASSWORD
+    volumes:
+      - /var/lib/mysql
+    container_name: myexpenses-mysql
