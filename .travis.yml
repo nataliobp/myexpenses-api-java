@@ -8,6 +8,7 @@ deploy:
   region: "eu-west-2"
   app: "myexpenses"
   env: "myexpenses-api-prod"
+  zip_file: 'build/libs/myexpenses-api-java-0.1.5.jar'
   bucket_name: "elasticbeanstalk-eu-west-2-305724934351"
   on:
     branch: master
