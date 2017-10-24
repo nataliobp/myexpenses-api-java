@@ -1,8 +1,12 @@
 .gradle
 .idea
-.env
 build
 gradle
 out
 local.properties
 myexpenses-api-java.iml
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml

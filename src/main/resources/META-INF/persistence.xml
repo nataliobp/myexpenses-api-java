@@ -7,15 +7,5 @@
         <class>com.myexpenses.domain.spender.Spender</class>
         <class>com.myexpenses.domain.category.Category</class>
         <class>com.myexpenses.domain.expense_list.ExpenseList</class>
-        <properties>
-            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://dbserver:3306/myexpenses"/>
-            <property name="javax.persistence.jdbc.user" value="root"/>
-            <property name="javax.persistence.jdbc.password" value="root"/>
-            <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
-            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect"/>
-            <property name="hibernate.id.new_generator_mappings" value="false"/>
-            <property name="hibernate.hbm2ddl.auto" value="update"/>
-            <property name="org.hibernate.flushMode" value="ALWAYS"/>
-        </properties>
     </persistence-unit>
 </persistence>

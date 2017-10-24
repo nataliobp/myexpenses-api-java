@@ -31,13 +31,28 @@ import org.springframework.context.annotation.Configuration;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import java.util.Properties;
 
 @Configuration
 public class AppConfig {
 
+    private Properties getPersistenceProperties() {
+        Properties props = new Properties();
+        props.put("javax.persistence.jdbc.url", System.getenv().get("MYSQL_URL"));
+        props.put("javax.persistence.jdbc.user", System.getenv().get("MYSQL_USER"));
+        props.put("javax.persistence.jdbc.password", System.getenv().get("MYSQL_PASSWORD"));
+        props.put("javax.persistence.jdbc.driver", "com.mysql.jdbc.Driver");
+        props.put("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
+        props.put("hibernate.id.new_generator_mappings", "false");
+        props.put("hibernate.hbm2ddl.auto", "update");
+        props.put("org.hibernate.flushMode", "ALWAYS");
+
+        return props;
+    }
+
     @Bean
     public EntityManagerFactory entityManagerFactory() {
-        return Persistence.createEntityManagerFactory("myexpenses-unit");
+        return Persistence.createEntityManagerFactory("myexpenses-unit", getPersistenceProperties());
     }
 
     @Bean
