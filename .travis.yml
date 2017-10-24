@@ -2,13 +2,14 @@ language: java
 jdk: oraclejdk8
 deploy:
   provider: elasticbeanstalk
+  skip_cleanup: true
   access_key_id: $ACCESSKEYID
   secret_access_key:
     secure: "$SECRETACCESSKEY"
   region: "eu-west-2"
   app: "myexpenses"
   env: "myexpenses-api-prod"
-  zip_file: 'build/libs/myexpenses-api-java-0.1.5.jar'
+  zip_file: 'build/libs/myexpenses-api-java-0.1.6.jar'
   bucket_name: "elasticbeanstalk-eu-west-2-305724934351"
   on:
     branch: master
