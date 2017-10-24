@@ -1,0 +1,11 @@
+deploy:
+  provider: elasticbeanstalk
+  access_key_id: $ACCESSKEYID
+  secret_access_key:
+    secure: "$SECRETACCESSKEY"
+  region: "eu-west-2"
+  app: "myexpenses"
+  env: "myexpenses-api-prod"
+  bucket_name: "elasticbeanstalk-eu-west-2-305724934351"
+  on:
+    branch: master
