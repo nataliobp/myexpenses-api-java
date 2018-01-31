@@ -65,11 +65,9 @@ public class SpenderController {
     }
 
     @RequestMapping(value = "/spenders", method = RequestMethod.GET)
-    public String getSpenders() throws Exception {
-        return "This is the test";
+    public SpenderDto[] getSpenders() throws Exception {
+        QueryResult result = getSpendersQueryHandler.handle(new GetSpendersQuery());
 
-//        QueryResult result = getSpendersQueryHandler.handle(new GetSpendersQuery());
-//
-//        return ((GetSpendersQueryResult) result).getSpendersDtos();
+        return ((GetSpendersQueryResult) result).getSpendersDtos();
     }
 }
